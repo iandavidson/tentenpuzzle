@@ -64,5 +64,14 @@ public class TestRenderMain {
 			}
 		}
 		System.out.print(buffer.toString());
+		
+		
+		Grid grid = Grid.newGrid(10);
+		
+		for(int x = 0; x < 10; x+=1){
+			grid.setAssigned(x*10 + x, true);
+			grid.setMostRecentlyAssigned(x*10 + 6, true);
+		}
+		System.out.print(grid.render());
 	}
 }
