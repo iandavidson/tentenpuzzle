@@ -3,6 +3,9 @@ package com.davidsoncamp.tenten.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.davidsoncamp.tenten.util.Pieces.Piece;
+import com.davidsoncamp.tenten.util.Pieces.RelativeCellPosition;
+
 public class Grid {
 
 	private final int dimension;
@@ -12,14 +15,45 @@ public class Grid {
 		return new Grid(dimension);
 	}
 
-	public void setAssigned(int cellId,boolean assigned) {
+	public static Grid newGrid(int dimension, List<Cell> cells) {
+		return new Grid(dimension, cells);
+	}
+
+	public static Grid newGrid(Grid grid) {
+
+		// Copy the cells
+		List<Cell> newCells = new ArrayList<Cell>();
+		for (int i = 0; i < grid.dimension * grid.dimension; i++) {
+			newCells.add(Cell.copyCell((grid.getCell(i))));
+		}
+
+		return newGrid(grid.dimension, newCells);
+	}
+
+	public Grid placePiece(RelativeCellPosition cornerPosition, Piece piece) {
+		
+		// Copy the current Grid
+		Grid newGrid = newGrid(this);
+
+		// Iterate through the positions in the piece and add them to the new Grid
+		for(RelativeCellPosition cellPosition: piece.getRelativeCellPositions()){
+			
+			// IAN
+			// Assign the cell of the piece
+			
+		}
+		
+		return newGrid;
+	}
+
+	public void setAssigned(int cellId, boolean assigned) {
 		getCell(cellId).setAssigned(assigned);
 	}
 
-	public void setMostRecentlyAssigned(int cellId,boolean assigned) {
+	public void setMostRecentlyAssigned(int cellId, boolean assigned) {
 		getCell(cellId).setMostRecentlyAssigned(assigned);
 	}
-	
+
 	public String render() {
 		StringBuffer buffer = new StringBuffer();
 
@@ -29,9 +63,13 @@ public class Grid {
 
 				for (int col = 0; col < dimension; col += 1) {
 
-					boolean assigned = this.cells.get(row * this.dimension + col).isAssigned();
-					boolean mostRecentlyAssigned = this.cells.get(row * this.dimension + col).isMostRecentlyAssigned();
-					int cellId = this.cells.get(row * this.dimension + col).getId();
+					boolean assigned = this.cells.get(
+							row * this.dimension + col).isAssigned();
+					boolean mostRecentlyAssigned = this.cells.get(
+							row * this.dimension + col)
+							.isMostRecentlyAssigned();
+					int cellId = this.cells.get(row * this.dimension + col)
+							.getId();
 					if (cellrow == 0) {
 						buffer.append("||----");
 					}
@@ -43,7 +81,9 @@ public class Grid {
 						} else if (mostRecentlyAssigned) {
 							buffer.append("|| $$ ");
 						} else {
-							buffer.append("|| ").append(computeFirstCellDigit(cellId)).append("  ");
+							buffer.append("|| ")
+									.append(computeFirstCellDigit(cellId))
+									.append("  ");
 						}
 					} else if (cellrow == 2) {
 						if (assigned) {
@@ -52,7 +92,9 @@ public class Grid {
 						} else if (mostRecentlyAssigned) {
 							buffer.append("|| $$ ");
 						} else {
-							buffer.append("||  ").append(computeSecondCellDigit(cellId)).append(" ");
+							buffer.append("||  ")
+									.append(computeSecondCellDigit(cellId))
+									.append(" ");
 						}
 					}
 
@@ -70,18 +112,28 @@ public class Grid {
 		return buffer.toString();
 	}
 
-	protected String computeFirstCellDigit(int id){
-		return Integer.toString(id/10);
-	}
-	
-	protected String computeSecondCellDigit(int id){
-		return Integer.toString(id%10);
+	protected String computeFirstCellDigit(int id) {
+		return Integer.toString(id / 10);
 	}
 
-	protected Cell getCell(int cellId){
+	protected String computeSecondCellDigit(int id) {
+		return Integer.toString(id % 10);
+	}
+
+	protected Cell getCell(int cellId) {
 		return this.cells.get(cellId);
 	}
-	
+
+	protected Cell getCell(RelativeCellPosition basePosition,
+			RelativeCellPosition pieceOffset) {
+
+		// IAN
+		// Calculate the cell id based on basePosition and offset
+		int cellId = 0; // ??
+
+		return getCell(cellId);
+	}
+
 	private Grid(int dimension) {
 		this.dimension = dimension;
 
@@ -94,6 +146,11 @@ public class Grid {
 				this.cells.add(Cell.newCell(row * this.dimension + column));
 			}
 		}
+	}
+
+	private Grid(int dimension, List<Cell> cells) {
+		this.dimension = dimension;
+		this.cells = cells;
 	}
 
 }

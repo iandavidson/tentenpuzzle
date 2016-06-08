@@ -6,17 +6,23 @@ public class Cell {
 	private boolean assigned;
 	private final int id;
 
+	public static Cell copyCell(Cell cell) {
+		Cell newCell = new Cell(cell.getId());
+		newCell.setAssigned(cell.isAssigned());
+		newCell.setMostRecentlyAssigned(cell.isMostRecentlyAssigned());
+		return newCell;
+	}
+
+	public static Cell newCell(int id) {
+		return new Cell(id);
+	}
+	
 	public boolean isMostRecentlyAssigned() {
 		return mostRecentlyAssigned;
 	}
 
 	public void setMostRecentlyAssigned(boolean mostRecentlyAssigned) {
 		this.mostRecentlyAssigned = mostRecentlyAssigned;
-	}
-
-
-	public static Cell newCell(int id) {
-		return new Cell(id);
 	}
 
 	public boolean isAssigned() {
