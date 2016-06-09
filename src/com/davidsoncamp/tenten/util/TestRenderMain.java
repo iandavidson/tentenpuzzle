@@ -29,7 +29,6 @@ public class TestRenderMain {
 				// Assigned or Unassigned
 				boolean assigned = random.nextInt(2) == 0 ? true : false;
 
-				
 				for (int col = 0; col < dimension; col += 1) {
 
 					if (cellrow == 0) {
@@ -64,14 +63,18 @@ public class TestRenderMain {
 			}
 		}
 		System.out.print(buffer.toString());
-		
-		
+
 		Grid grid = Grid.newGrid(10);
-		
-		for(int x = 0; x < 10; x+=1){
-			grid.setAssigned(x*10 + x, true);
-			grid.setMostRecentlyAssigned(x*10 + 6, true);
+
+		for (int x = 0; x < 10; x += 1) {
+			grid.setAssigned(x * 10 + x, true);
+			grid.setMostRecentlyAssigned(x * 10 + 6, true);
 		}
 		System.out.print(grid.render());
+
+		Grid emptyGrid = Grid.newGrid(10);
+		Grid updatedGrid = emptyGrid.placePiece(Pieces.RelativeCellPosition.UNITY_CELL_POSITION, Pieces.TWO_BY_TWO);
+		System.out.print("\n\n" + updatedGrid.render());
+
 	}
 }
