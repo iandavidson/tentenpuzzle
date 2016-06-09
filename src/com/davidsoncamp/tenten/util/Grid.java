@@ -30,19 +30,26 @@ public class Grid {
 		return newGrid(grid.dimension, newCells);
 	}
 
-	public Grid placePiece(RelativeCellPosition cornerPosition, Piece piece) {
-		
+	public Grid placePiece(RelativeCellPosition basePosition, Piece piece) {
+
 		// Copy the current Grid
 		Grid newGrid = newGrid(this);
 
-		// Iterate through the positions in the piece and add them to the new Grid
-		for(RelativeCellPosition cellPosition: piece.getRelativeCellPositions()){
-			
-			// IAN
-			// Assign the cell of the piece
-			
+		Cell cell = newGrid.getCell(basePosition, Pieces.RelativeCellPosition.UNITY_CELL_POSITION);
+		cell.setAssigned(true);
+
+		// Iterate through the positions in the piece and add them to the new
+		// Grid
+		if (null != piece.getRelativeCellPositions()) {
+			for (RelativeCellPosition pieceOffset : piece.getRelativeCellPositions()) {
+
+				// IAN
+				// Assign the cell of the piece
+				cell = newGrid.getCell(basePosition, pieceOffset);
+				cell.setAssigned(true);
+
+			}
 		}
-		
 		return newGrid;
 	}
 
@@ -63,13 +70,9 @@ public class Grid {
 
 				for (int col = 0; col < dimension; col += 1) {
 
-					boolean assigned = this.cells.get(
-							row * this.dimension + col).isAssigned();
-					boolean mostRecentlyAssigned = this.cells.get(
-							row * this.dimension + col)
-							.isMostRecentlyAssigned();
-					int cellId = this.cells.get(row * this.dimension + col)
-							.getId();
+					boolean assigned = this.cells.get(row * this.dimension + col).isAssigned();
+					boolean mostRecentlyAssigned = this.cells.get(row * this.dimension + col).isMostRecentlyAssigned();
+					int cellId = this.cells.get(row * this.dimension + col).getId();
 					if (cellrow == 0) {
 						buffer.append("||----");
 					}
@@ -81,9 +84,7 @@ public class Grid {
 						} else if (mostRecentlyAssigned) {
 							buffer.append("|| $$ ");
 						} else {
-							buffer.append("|| ")
-									.append(computeFirstCellDigit(cellId))
-									.append("  ");
+							buffer.append("|| ").append(computeFirstCellDigit(cellId)).append("  ");
 						}
 					} else if (cellrow == 2) {
 						if (assigned) {
@@ -92,9 +93,7 @@ public class Grid {
 						} else if (mostRecentlyAssigned) {
 							buffer.append("|| $$ ");
 						} else {
-							buffer.append("||  ")
-									.append(computeSecondCellDigit(cellId))
-									.append(" ");
+							buffer.append("||  ").append(computeSecondCellDigit(cellId)).append(" ");
 						}
 					}
 
@@ -124,12 +123,12 @@ public class Grid {
 		return this.cells.get(cellId);
 	}
 
-	protected Cell getCell(RelativeCellPosition basePosition,
-			RelativeCellPosition pieceOffset) {
+	protected Cell getCell(RelativeCellPosition basePosition, RelativeCellPosition pieceOffset) {
 
-		// IAN
 		// Calculate the cell id based on basePosition and offset
-		int cellId = 0; // ??
+		int row = basePosition.getRow() + pieceOffset.getRow();
+		int col = basePosition.getCol() + pieceOffset.getCol();
+		int cellId = row * this.dimension + col;
 
 		return getCell(cellId);
 	}
