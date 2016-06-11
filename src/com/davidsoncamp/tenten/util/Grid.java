@@ -10,16 +10,17 @@ public class Grid {
 
 	private final int dimension;
 	private List<Cell> cells;
+	private int score;
 
 	public static Grid newGrid(int dimension) {
 		return new Grid(dimension);
 	}
 
-	public static Grid newGrid(int dimension, List<Cell> cells) {
+	protected static Grid newGrid(int dimension, List<Cell> cells) {
 		return new Grid(dimension, cells);
 	}
 
-	public static Grid newGrid(Grid grid) {
+	protected static Grid newGrid(Grid grid) {
 
 		// Copy the cells
 		List<Cell> newCells = new ArrayList<Cell>();
@@ -28,6 +29,10 @@ public class Grid {
 		}
 
 		return newGrid(grid.dimension, newCells);
+	}
+	
+	public int getScore() {
+		return this.score;
 	}
 
 	public Grid placePiece(RelativeCellPosition basePosition, Piece piece) {
