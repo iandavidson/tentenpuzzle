@@ -20,7 +20,7 @@ public class Grid {
 		return new Grid(dimension, cells);
 	}
 
-	protected static Grid newGrid(Grid grid) {
+	public static Grid newGrid(Grid grid) {
 
 		// Copy the cells
 		List<Cell> newCells = new ArrayList<Cell>();
@@ -31,6 +31,7 @@ public class Grid {
 		return newGrid(grid.dimension, newCells);
 	}
 	
+	// TODO Move to game board
 	public int getScore() {
 		return this.score;
 	}
@@ -116,10 +117,12 @@ public class Grid {
 		return buffer.toString();
 	}
 
+	// TODO Move to GameBoard (w/ the render method)
 	protected String computeFirstCellDigit(int id) {
 		return Integer.toString(id / 10);
 	}
 
+	// TODO Move to GameBoard (w/ the render method)
 	protected String computeSecondCellDigit(int id) {
 		return Integer.toString(id % 10);
 	}
