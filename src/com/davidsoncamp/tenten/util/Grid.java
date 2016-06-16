@@ -9,6 +9,14 @@ import com.davidsoncamp.tenten.util.Pieces.RelativeCellPosition;
 public class Grid {
 
 	private final int dimension;
+	public List<Cell> getCells() {
+		return cells;
+	}
+
+	public int getDimension() {
+		return dimension;
+	}
+
 	private List<Cell> cells;
 	private int score;
 
