@@ -1,7 +1,14 @@
 package com.davidsoncamp.tenten.util;
 
+/**
+ * Represents an individual element w/in the game that has a unique identifier (id) and integer value (value)
+ * 
+ * @author scdavidson
+ *
+ */
 public class Cell {
 
+	// TODO Replace assigned and most recently assigned w/ a single integer value
 	private boolean mostRecentlyAssigned;
 	private boolean assigned;
 	private final int id;
